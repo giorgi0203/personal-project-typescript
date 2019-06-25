@@ -10,7 +10,7 @@
         "outDir": "build"
     },
     "include": [
-        "transaction/**/*"
+        "source/transaction/**/*", "source/example.ts"
     ],
     "exclude": [
         "node_modules"

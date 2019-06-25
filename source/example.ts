@@ -1,5 +1,5 @@
-import Transaction from ".";
-import { IScenario, IStore } from "./interfaces";
+import Transaction from "./transaction";
+import { IScenario, IStore } from "./transaction/interfaces";
 
 const scenario: IScenario[] = [
   {
@@ -47,6 +47,13 @@ const transaction = new Transaction();
 
 (async () => {
   try {
+    /**
+     * code for checking dispatch seal
+     */
+    // transaction.dispatch = async function name(scenarios: IScenario[]) {
+    //   console.log("aaaaa my code is changed");
+
+    // };
     await transaction.dispatch(scenario);
     const store = transaction.store; // {} | null
     const logs = transaction.logs; // []

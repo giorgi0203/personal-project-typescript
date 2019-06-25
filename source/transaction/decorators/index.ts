@@ -1,0 +1,1 @@
+export { seal } from "./seal";

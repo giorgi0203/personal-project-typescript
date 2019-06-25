@@ -1,4 +1,4 @@
-import { IStore } from ".";
+import { IStore } from "../interfaces";
 export interface IScenario {
   index: number;
   silent?: boolean;

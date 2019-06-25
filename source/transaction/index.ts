@@ -1,9 +1,17 @@
+import { seal } from "./decorators";
 import { IErrorLog, ILog, IScenario, IStore } from "./interfaces";
+
 export default class Transaction {
   public store: IStore = {};
-  public logs: Array<ILog | IErrorLog> = new Array();
 
+  public logs: Array<ILog | IErrorLog> = new Array();
+  /**
+   * this function is protected by seal and it cannot be changed
+   * @param Array<IScenario>
+   */
+  @seal(true)
   public async dispatch(scenarios: IScenario[]) {
+
     scenarios.sort((curr, next) => {
       return curr.index > next.index ? 1 : -1;
     });
