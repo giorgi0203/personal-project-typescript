@@ -1,6 +1,7 @@
-import { seal } from "./decorators";
+import { Log } from "./decorators";
 import { IErrorLog, ILog, IScenario, IStore } from "./interfaces";
 
+@Log
 export default class Transaction {
   public store: IStore = {};
 
@@ -9,7 +10,7 @@ export default class Transaction {
    * this function is protected by seal and it cannot be changed
    * @param Array<IScenario>
    */
-  @seal(true)
+  // @seal(false)
   public async dispatch(scenarios: IScenario[]) {
 
     scenarios.sort((curr, next) => {
@@ -29,21 +30,25 @@ export default class Transaction {
         const storeAfter = { ...this.store };
         // build up log object
         const { meta, index } = scenarios[i];
-        this.logs.push({
-          error: null,
-          index,
-          meta,
-          storeAfter,
-          storeBefore,
-        });
+        if (this.logs !== undefined) {
+          this.logs.push({
+            error: null,
+            index,
+            meta,
+            storeAfter,
+            storeBefore,
+          });
+        }
       } catch (err) {
         const { meta, index, silent } = scenarios[i];
         if (silent === false || silent === undefined) {
-          this.logs.push({
-            error: err,
-            index,
-            meta,
-          });
+          if (this.logs !== undefined) {
+            this.logs.push({
+              error: err,
+              index,
+              meta,
+            });
+          }
           for (let j = i - 1; j >= 0; j--) {
             if (scenarios[j].restore) {
               try {
@@ -58,13 +63,15 @@ export default class Transaction {
         } else if (silent === true) {
           const storeAfter = this.store;
           // const { meta, index } = scenarios[i];
-          this.logs.push({
-            error: err,
-            index,
-            meta,
-            storeAfter,
-            storeBefore,
-          });
+          if (this.logs !== undefined) {
+            this.logs.push({
+              error: err,
+              index,
+              meta,
+              storeAfter,
+              storeBefore,
+            });
+          }
         }
       }
     }

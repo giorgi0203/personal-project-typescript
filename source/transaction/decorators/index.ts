@@ -1,1 +1,1 @@
-export { seal } from "./seal";
+export { Log } from "./log";

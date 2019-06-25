@@ -47,13 +47,6 @@ const transaction = new Transaction();
 
 (async () => {
   try {
-    /**
-     * code for checking dispatch seal
-     */
-    // transaction.dispatch = async function name(scenarios: IScenario[]) {
-    //   console.log("aaaaa my code is changed");
-
-    // };
     await transaction.dispatch(scenario);
     const store = transaction.store; // {} | null
     const logs = transaction.logs; // []
