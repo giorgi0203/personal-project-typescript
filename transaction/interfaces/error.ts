@@ -1,5 +1,5 @@
-export interface error {
-    name: string;
-    message: string;
-    stack: Array<string>;
+export interface IError {
+  name: string;
+  message: string;
+  stack: string[];
 }

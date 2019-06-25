@@ -1,3 +1,4 @@
-export { scenario } from './scenario';
-export { log, errorLog } from './logs';
-export { error } from './error';
+export { IScenario } from "./scenario";
+export { ILog, IErrorLog } from "./logs";
+export { IError } from "./error";
+export { IStore } from "./store";

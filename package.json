@@ -1,7 +1,6 @@
 {
   "name": "personal-project-typescript",
   "version": "1.0.0",
-  
   "description": "",
   "main": "main.js",
   "scripts": {
@@ -18,6 +17,7 @@
   },
   "homepage": "https://github.com/giorgi0203/personal-project-typescript#readme",
   "dependencies": {
+    "tslint": "^5.18.0",
     "typescript": "^3.5.2"
   }
 }

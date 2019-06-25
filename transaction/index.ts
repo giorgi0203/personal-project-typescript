@@ -1,65 +1,64 @@
-import { log, errorLog, scenario } from './interfaces';
+import { IErrorLog, ILog, IScenario, IStore } from "./interfaces";
 export default class Transaction {
-    store: any = {};
-    logs: Array<log | errorLog> = new Array();
-    constructor() {
+  public store: IStore = {};
+  public logs: Array<ILog | IErrorLog> = new Array();
 
+  public async dispatch(scenarios: IScenario[]) {
+    scenarios.sort((curr, next) => {
+      return curr.index > next.index ? 1 : -1;
+    });
+
+    if (scenarios[0].index < 0) {
+      throw new Error("index must not be negative");
     }
 
-    async dispatch(scenarios: Array<scenario>) {
-        scenarios.sort((curr, next) => {
-            return curr.index > next.index ? 1 : -1;
+    for (let i = 0; i < scenarios.length; i++) {
+      // save current state
+      const storeBefore = { ...this.store };
+      try {
+        // get new state
+        await scenarios[i].call(this.store);
+        const storeAfter = { ...this.store };
+        // build up log object
+        const { meta, index } = scenarios[i];
+        this.logs.push({
+          error: null,
+          index,
+          meta,
+          storeAfter,
+          storeBefore,
         });
-
-        for (let i = 0; i < scenarios.length; i++) {
-            //save current state
-            let storeBefore = { ...this.store };
-            try {
-                //get new state
-                await scenarios[i].call(this.store);
-                let storeAfter = { ...this.store };
-                //build up log object
-                let { meta, index } = scenarios[i];
-                this.logs.push({
-                    meta,
-                    index,
-                    storeBefore,
-                    storeAfter,
-                    error: null
-                });
-            } catch (err) {
-                let { meta, index, silent } = scenarios[i];
-                if (silent == false || silent == undefined) {
-                    this.logs.push({
-                        meta,
-                        index,
-                        error: err
-                    });
-                    for (let j = i - 1; j >= 0; j--) {
-                        if (scenarios[j].restore) {
-                            try {
-                                await scenarios[j].restore();
-                            } catch (err) {
-                                throw err;
-                            }
-
-                        }
-                    }
-                    this.store = null;
-                    break;
-                } else if (silent == true) {
-                    let storeAfter = this.store;
-                    let { meta, index } = scenarios[i];
-                    this.logs.push({
-                        meta,
-                        index,
-                        storeBefore,
-                        storeAfter,
-                        error: err
-                    });
-                }
+      } catch (err) {
+        const { meta, index, silent } = scenarios[i];
+        if (silent === false || silent === undefined) {
+          this.logs.push({
+            error: err,
+            index,
+            meta,
+          });
+          for (let j = i - 1; j >= 0; j--) {
+            if (scenarios[j].restore) {
+              try {
+                await scenarios[j].restore();
+              } catch (err) {
+                throw err;
+              }
             }
+          }
+          this.store = null;
+          break;
+        } else if (silent === true) {
+          const storeAfter = this.store;
+          // const { meta, index } = scenarios[i];
+          this.logs.push({
+            error: err,
+            index,
+            meta,
+            storeAfter,
+            storeBefore,
+          });
         }
+      }
     }
+  }
 }
-

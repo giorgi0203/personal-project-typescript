@@ -1,20 +1,20 @@
-import { error } from "./error";
+import { IError } from "./error";
 
-export interface log {
-    index: number;
-    meta: {
-        title: string;
-        description: string;
-    };
-    storeBefore: {};
-    storeAfter: {};
-    error: error
+export interface ILog {
+  index: number;
+  meta: {
+    title: string;
+    description: string;
+  };
+  storeBefore: {};
+  storeAfter: {};
+  error: IError;
 }
-export interface errorLog {
-    index: number;
-    meta: {
-        title: string
-        description: string
-    };
-    error: error
+export interface IErrorLog {
+  index: number;
+  meta: {
+    title: string;
+    description: string;
+  };
+  error: IError;
 }
