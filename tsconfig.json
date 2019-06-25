@@ -1,0 +1,18 @@
+{
+    "compilerOptions": {
+        "noImplicitAny": true,
+        "target": "es5",
+        "lib": [
+            "es2015",
+            "dom"
+        ],
+        "experimentalDecorators": true,
+        "outDir": "build"
+    },
+    "include": [
+        "transaction/**/*"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}

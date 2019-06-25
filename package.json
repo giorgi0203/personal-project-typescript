@@ -1,0 +1,23 @@
+{
+  "name": "personal-project-typescript",
+  "version": "1.0.0",
+  
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "tsc && node ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/giorgi0203/personal-project-typescript.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/giorgi0203/personal-project-typescript/issues"
+  },
+  "homepage": "https://github.com/giorgi0203/personal-project-typescript#readme",
+  "dependencies": {
+    "typescript": "^3.5.2"
+  }
+}
