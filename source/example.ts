@@ -50,11 +50,14 @@ const transaction = new Transaction();
     await transaction.dispatch(scenario);
     const store = transaction.store; // {} | null
     const logs = transaction.logs; // []
+    if (logs) {
+      for (const log of logs) {
+        console.log("******************************");
+        console.log(log);
+      }
 
-    for (const log of logs) {
-      console.log("******************************");
-      console.log(log);
     }
+
   } catch (err) {
     console.log("******************************");
     console.log(err);

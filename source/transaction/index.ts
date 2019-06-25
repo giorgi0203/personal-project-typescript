@@ -5,7 +5,7 @@ import { IErrorLog, ILog, IScenario, IStore } from "./interfaces";
 export default class Transaction {
   public store: IStore = {};
 
-  public logs: Array<ILog | IErrorLog> = new Array();
+  public logs: Array<ILog | IErrorLog> = undefined;
   /**
    * this function is protected by seal and it cannot be changed
    * @param Array<IScenario>
